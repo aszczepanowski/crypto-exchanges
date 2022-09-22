@@ -1,0 +1,24 @@
+# Logs/IDE/OS generated files
+*.log
+.DS_Store
+.idea/*
+.vscode/*
+
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Build
+/build
+
+# Environment files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Misc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
