@@ -2,6 +2,7 @@ import './App.css';
 import { StrictMode } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import ScrollRestoration from 'components/ScrollRestoration';
 import Details from 'pages/Details';
 import Listing from 'pages/Listing';
 import NotFound from 'pages/NotFound';
@@ -21,6 +22,7 @@ const App = (): JSX.Element => {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <div className="flex flex-col min-h-screen">
+            <ScrollRestoration />
             <Routes>
               <Route path="*" element={<NotFound />} />
               <Route path="/" element={<Listing />} />
