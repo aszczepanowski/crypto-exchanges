@@ -6,11 +6,11 @@ describe('Listing - UI', () => {
   });
 
   it('should display skeletons, then components with API data', () => {
+    cy.intercept(`${API_HOST}/exchanges?per_page=10`).as('getList');
+
     cy.findAllByTestId('list-item-skeleton').should('have.length', 10);
 
-    cy.intercept(`${API_HOST}/exchanges?per_page=10`).as('getList');
     cy.wait('@getList');
-
 
     cy.findAllByTestId('list-item').should('have.length', 10);
     cy.findAllByTestId('list-item').first().contains('Binance');
@@ -21,6 +21,7 @@ describe('Listing - UI', () => {
     cy.intercept(`${API_HOST}/exchanges?per_page=10`, {
       forceNetworkError: true
     }).as('getListError');
+
     cy.wait('@getListError');
 
     cy.contains('An error occurred while processing your request');
@@ -30,6 +31,7 @@ describe('Listing - UI', () => {
     cy.intercept(`${API_HOST}/exchanges?per_page=10`, {
       body: []
     }).as('getListEmpty');
+
     cy.wait('@getListEmpty');
 
     cy.contains('No data was found for your request');
