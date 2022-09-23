@@ -3,52 +3,26 @@ name: Continuous integration
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-test:
 
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Use Node.js specified in package.json
+      - name: Use the same version of Node.js that is specified in package.json
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
-          cache: 'npm'
+          cache: "npm"
 
-      - run: npm ci
-      - run: npm run build
+      - name: Install dependencies and build
+        run: npm ci && npm run build
 
-  test-unit:
-    runs-on: ubuntu-latest
+      - name: Run unit tests
+        run: CI=true npm run test:unit
 
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Use Node.js specified in package.json
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-          cache: 'npm'
-
-      - run: npm ci
-      - run: CI=true npm run test:unit
-
-  test-e2e:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Use Node.js specified in package.json
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-          cache: 'npm'
-
-      - run: npm ci
-      - run: npm run test:e2e
+      - name: Run E2E tests
+        run: npm run test:e2e
