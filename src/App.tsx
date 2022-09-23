@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { StrictMode } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import Details from 'pages/Details';
+import Listing from 'pages/Listing';
+import NotFound from 'pages/NotFound';
 
-function App() {
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 0
+    }
+  }
+});
+
+const App = (): JSX.Element => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <div className="flex flex-col min-h-screen">
+            <Routes>
+              <Route path="*" element={<NotFound />} />
+              <Route path="/" element={<Listing />} />
+              <Route path="/details/:id" element={<Details />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </StrictMode>
   );
-}
+};
 
 export default App;
