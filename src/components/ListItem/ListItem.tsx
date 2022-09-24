@@ -1,24 +1,18 @@
 import clsx from 'clsx';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ScoreBar from 'components/ScoreBar';
 import type { ListItemProps } from './types';
 
 const ListItem = ({ data, isLast }: ListItemProps): JSX.Element => {
-  const navigate = useNavigate();
   const id = data.trust_score_rank.toString().padStart(2, '0');
 
-  const handleClick = () => {
-    navigate(`/details/${data.id}`);
-  };
-
   return (
-    // We need to use div with click handler,
-    // because we can't nest <a> tags (website link is nested)
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
-    <div
-      className={clsx('group', isLast !== true && 'mb-5')}
+    // Important: nested <a> tags are semantically incorrect
+    // <div> with onClick handlers doesn't allow us to the open page in a new tab
+    <Link
+      className={clsx('group block', isLast !== true && 'mb-5')}
+      to={`/details/${data.id}`}
       data-testid="list-item"
-      onClick={handleClick}
     >
       <div className="bg-white text-slate-900 border border-white group-hover:border-slate-900 rounded-lg shadow py-5 md:py-3 px-4 cursor-pointer transition-colors">
         <div className="md:flex md:items-center">
@@ -72,7 +66,7 @@ const ListItem = ({ data, isLast }: ListItemProps): JSX.Element => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
