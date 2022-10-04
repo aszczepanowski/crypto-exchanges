@@ -45,7 +45,7 @@ const Listing = (): JSX.Element => {
     return data.map((item, i) => {
       const id = i + 1;
       const isLast = id === 10;
-      return <ListItem key={id} data={item} isLast={isLast} />;
+      return <ListItem key={item.id} data={item} isLast={isLast} />;
     });
   };
 
